@@ -1,0 +1,51 @@
+<div class="profile-page" *ngIf="userProfile">
+  <div class="user-info">
+    <div class="container">
+      <div class="row">
+        <div class="col-cs-12 col-md-10 offset-md-1">
+          <img [src]="userProfile.image" alt="User Image">
+          <h4>{{userProfile.username}}</h4>
+          <p>{{userProfile.bio}}</p>
+          <div>FOLLOW USER BUTTON</div>
+          <a
+            class="btn btn-sm btn-outline-secondary action-btn"
+            [routerLink]="['/settings']"
+            *ngIf="isCurrentUserProfile$ | async">
+            Edit Profile Settings
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 offset-md-1">
+        <div class="articles-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [routerLink]="['/profiles', userProfile.username]"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true, __hack__: userProfile.username}"
+              >
+                My Posts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [routerLink]="['/profiles', userProfile.username, 'favorites']"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true, __hack__: userProfile.username}"
+              >
+                Favorites Posts
+              </a>
+            </li>
+          </ul>
+        </div>
+        <mc-feed [apiUrl]="getApiUrl()"></mc-feed>
+      </div>
+    </div>
+  </div>
+</div>
