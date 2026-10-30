@@ -1,27 +1,39 @@
-# MediumcloneNgrx
+# Medium Clone (Angular + NgRx)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.8.
+A Medium style blogging app built with Angular and NgRx. It follows the [RealWorld](https://github.com/gothinkster/realworld) spec: users can sign up, write and edit articles, read feeds, filter by tags and add articles to favorites.
 
-## Development server
+This is a learning project from a course about NgRx. I used it to practise a feature based store structure in a larger Angular app. The backend is a separate NestJS project: [mediumclone-nest](https://github.com/serj7220/mediumclone-nest).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- Sign up, sign in, sign out and user settings
+- Global feed, personal feed and feeds by tag, with pagination
+- Create, edit, view and delete articles
+- Add articles to favorites
+- User profiles
+- Popular tags
+- Server side validation errors shown in the forms
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## How it is built
 
-## Build
+- **One store slice per feature.** Each feature (`auth`, `article`, `edit-article`, `settings` and others) has its own `actions`, `reducers`, `selectors` and `effects`. The root module only connects them.
+- **Effects for all side effects.** API calls, redirects after login and saving the token live in NgRx Effects, so components only dispatch actions and read state through selectors.
+- **Router state in the store** with `@ngrx/router-store`, and Redux DevTools support with `@ngrx/store-devtools`.
+- **HTTP interceptor** adds the auth token to every request.
+- **Reusable shared modules:** feed, pagination, tag list, popular tags, favorites button, article form, loading and error messages.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Run locally
 
-## Running unit tests
+1. Start the backend from [mediumclone-nest](https://github.com/serj7220/mediumclone-nest). The app expects it on `http://localhost:3000` (see `src/environments`). You can also point `apiUrl` to any API that follows the RealWorld spec.
+2. Start the frontend:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install
+npm start
+```
 
-## Running end-to-end tests
+3. Open http://localhost:4200.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Stack
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Angular 13 (NgModules), NgRx 13 (Store, Effects, Router Store, Store DevTools), RxJS 7, TypeScript.
